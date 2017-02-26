@@ -400,7 +400,57 @@ public class Krave{
 		}
 	}
 
+	//insert by calling
 
+	//after all the insert process finishes, call
+	ArrayList<String> resultString(String input){
+		ArrayList<String> userKeyList = new ArrayList<String>();
+		String[] str = input.split(",");
+		for(String s : str){
+			userKeyList.add(s);
+		}
+
+		TwoThreeTree scoreTree = new TwoThreeTree();
+		for(int i = 0; i < foodList.size(); i++)
+		{
+			Food f = foodList.get(i);
+			int score = getScore(userKeyList, f);
+			scoreTree.insert(score, f, tree.root, tree.height)
+		}
+
+		ArrayList<String> results = scoreTree.getResult();
+		return results;
+	}
+
+	int getScore(ArrayList<String> keyWordList, Food f){
+		int score;
+		for(int i = 0; i < keyWordList.size(); i++)
+		{
+			String curKey = keyWordList.get(i);
+			for(int j = 0; j < f.getTag.size(); j++)
+			{
+				if(curKey.equalsIgnoreCase(f.getTag.get(j)))
+				{
+					score++;
+				}
+			}
+		}	
+		return score;
+	}
+
+	void addTags(String name, int numTags, String tags){
+		for(int i = 0; i < foodList.size(); i++){	
+			if(foodList.get(i).getName.equalsIgnoreCase(name)){
+				ArrayList<String> tagList = new ArrayList<String>();
+				String[] splitTags = tags.split("\\s+");
+				for(String s : splitTags){
+					tagList.add(s);
+				}
+				foodList.get(i).setTag(tagList);
+			}
+		}
+	}
+	
 	boolean veganToggle;
 	boolean ageToggle;
 	boolean glutenToggle;
@@ -422,7 +472,7 @@ public class Krave{
 					temp += s;
 					temp = temp.substring(0, temp.length()-1);
 					if(counter % 4 == 0){
-						System.out.println(temp);
+	//					System.out.println(temp);
 						foodList.add(temp);
 						temp = "";
 					}
@@ -433,7 +483,7 @@ public class Krave{
 				else if(counter % 4 == 3){
 					temp += s;
 					foodList.add(temp);
-					System.out.println(temp);
+	//				System.out.println(temp);
 				}
 				else{
 					temp += s + " ";
@@ -443,5 +493,7 @@ public class Krave{
 		catch(Exception e){
 			System.out.println("error");
 		}
+
+		// Drink List Scanner implementation
 	}
 }	

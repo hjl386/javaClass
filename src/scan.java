@@ -1,8 +1,10 @@
 import java.util.*;
 import java.io.*;
-import javax.swing;
 
 public class scan {
+	
+//	File[] files = new File(	
+
 	public static void main(String args[]){
 		File food = new File("foodList.txt");	
 
@@ -46,25 +48,19 @@ public class scan {
 
 		File drink = new File(chooser.getSelectedFile().getName());	
 */
-		Collection<File> all = new ArrayList<File>();
+//		Collection<File> all = new ArrayList<File>();
 		
-		File drink = new File(   );		
+		File drink = new File("drinkListOne.txt");		
+//		try (Scanner sc = new Scanner(drink)){
 		try (Scanner in = new Scanner(drink)){
+			in.useDelimiter(", ");
 			String temp = "";
-			int counter = 0;
 			while(in.hasNext()){
-				String s = in.next();
-				if(s.substring(s.length()-1).equals(",")){
+				String d = in.next();
+			/*	if(s.substring(s.length()-1).equals(",")){
 					counter += 1;
 					temp += s;
 					temp = temp.substring(0, temp.length()-1);
-					if(counter % 4 == 0){
-						System.out.println(temp);
-						temp = "";
-					}
-					else{
-						temp +=  " ";
-					}	
 				}
 				else if(counter % 4 == 3){
 					temp += s;
@@ -72,7 +68,8 @@ public class scan {
 				}
 				else{
 					temp += s + " ";
-				}	
+				}*/
+				System.out.println(d);	
 			}
 		}
 		catch(Exception e){
