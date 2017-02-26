@@ -35,12 +35,17 @@ public class Krave{
 		boolean isGlutenFree(){
 			return glutenFree;
 		}
+
+		String getName(){
+			return name;
+		}
 	}
 
 	class Food extends Item{
 		ArrayList<Food> relatedList;
 		ArrayList<Drink> drinkList;
-
+		ArrayList<String> tagList;
+	
 		Food(String n, int ageBit, int veganBit, int glutenBit){
 			super(n, ageBit, veganBit, glutenBit);
 			relatedList = new ArrayList<Food>();
@@ -58,6 +63,14 @@ public class Krave{
 			for(Drink d : suggestList){
 				relatedList.add(d);
 			}
+		}
+		
+		void setTag(ArrayList<String>tags){
+			tagList = tags;
+		}
+		
+		ArrayList<String> getTag(){
+			return tagList;
 		}
 	}
 
@@ -405,7 +418,7 @@ public class Krave{
 	//after all the insert process finishes, call
 	ArrayList<String> resultString(String input){
 		ArrayList<String> userKeyList = new ArrayList<String>();
-		String[] str = input.split(",");
+		String[] str = input.split(", ");
 		for(String s : str){
 			userKeyList.add(s);
 		}
@@ -415,7 +428,7 @@ public class Krave{
 		{
 			Food f = foodList.get(i);
 			int score = getScore(userKeyList, f);
-			scoreTree.insert(score, f, tree.root, tree.height)
+			scoreTree.insert(score, f, scoreTree.root, scoreTree.height);
 		}
 
 		ArrayList<String> results = scoreTree.getResult();
@@ -423,13 +436,13 @@ public class Krave{
 	}
 
 	int getScore(ArrayList<String> keyWordList, Food f){
-		int score;
+		int score = 0;
 		for(int i = 0; i < keyWordList.size(); i++)
 		{
 			String curKey = keyWordList.get(i);
-			for(int j = 0; j < f.getTag.size(); j++)
+			for(int j = 0; j < f.getTag().size(); j++)
 			{
-				if(curKey.equalsIgnoreCase(f.getTag.get(j)))
+				if(curKey.equalsIgnoreCase(f.getTag().get(j)))
 				{
 					score++;
 				}
@@ -440,7 +453,7 @@ public class Krave{
 
 	void addTags(String name, int numTags, String tags){
 		for(int i = 0; i < foodList.size(); i++){	
-			if(foodList.get(i).getName.equalsIgnoreCase(name)){
+			if(foodList.get(i).getName().equalsIgnoreCase(name)){
 				ArrayList<String> tagList = new ArrayList<String>();
 				String[] splitTags = tags.split("\\s+");
 				for(String s : splitTags){
@@ -473,7 +486,14 @@ public class Krave{
 					temp = temp.substring(0, temp.length()-1);
 					if(counter % 4 == 0){
 	//					System.out.println(temp);
-						foodList.add(temp);
+						String[] a = temp.split(" ");
+						int len = a.length;
+						String tem = "";
+						for(int i = 0; i < a.length-3; i++){
+							tem += a[i];
+						}
+						Food f = new Food(tem, Integer.parseInt(a[len-3]), Integer.parseInt(a[len-2]), Integer.parseInt(a[len-1]));						
+						foodList.add(f);
 						temp = "";
 					}
 					else{
@@ -482,7 +502,15 @@ public class Krave{
 				}
 				else if(counter % 4 == 3){
 					temp += s;
-					foodList.add(temp);
+					String[] a = temp.split(" ");
+					int len = a.length;
+					String tem = "";
+					for(int i = 0; i < a.length-3; i++){
+						tem += a[i];
+					}
+					Food f = new Food(tem, Integer.parseInt(a[len-3]), Integer.parseInt(a[len-2]), Integer.parseInt(a[len-1]));						
+					foodList.add(f);
+					temp = "";
 	//				System.out.println(temp);
 				}
 				else{
