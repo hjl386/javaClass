@@ -98,10 +98,21 @@ public class Krave{
 	void process(){
 
 	}
-}
 
+	public class scan {
+		public static void main(String[] args){
+			File food = new File("foodList.txt");	
 
+			try (Scanner in = new Scanner(food)){
+				while(in.hasNext()){
+					String s = in.next();
+					System.out.println(in.next());	
+				}		
+			}
+			catch(Exception e){
+				System.out.println("error");
+			}
+		}
+	}
 
-
-
-	
+}	
